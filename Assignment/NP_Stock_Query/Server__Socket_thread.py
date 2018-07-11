@@ -25,7 +25,7 @@ class Connection:
         print("The server is ready to receive")
         while True:
             connectionSocket, addr = self.serverSocket.accept()
-            #connectionSocket.settimeout(10)
+            connectionSocket.settimeout(30)
             threading.Thread(target=self.provide_service, args=(connectionSocket, addr)).start()
 
 
