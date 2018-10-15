@@ -1,11 +1,17 @@
 controller_price = {-5: ["S", 49], -2: ["C", 12], 0: ["N", 0], 1: ["H", 5], 6: ["O", 39]}
 
 
+# def cal_temperature(inner_temperature, external_temperature):
+#     if inner_temperature < external_temperature:
+#         return (inner_temperature + external_temperature) / 2
+#     else:
+#         return (3 * inner_temperature + external_temperature) / 4
+
 def cal_temperature(inner_temperature, external_temperature):
     if inner_temperature < external_temperature:
-        return (inner_temperature + external_temperature) / 2
+        return (3*inner_temperature + external_temperature) / 4
     else:
-        return (3 * inner_temperature + external_temperature) / 4
+        return (7* inner_temperature + external_temperature) / 8
 
 
 def temp_violation(temp, r):
@@ -119,13 +125,14 @@ def violation_generation(house_temp_list, r):
 
 
 house_temp = 20
-temp_list = temp_list_generation("JAN0107.txt")  # The data file
-temp_change_list = temp_change_generation(20, 4, temp_list)
+temp_list = temp_list_generation("OCT0107.txt")  # The data file
+temp_change_list = temp_change_generation(20, 2, temp_list)
 house_temp_list = house_temp_generation(house_temp, temp_change_list, temp_list)
 mode_change_list = mode_change_generation(temp_change_list)
 price_list = price_generation(temp_change_list)
-violation_tuple = violation_generation(house_temp_list, 4)
+violation_tuple = violation_generation(house_temp_list, 2)
 
+#form the output string
 output = ""
 for index in range(len(temp_list)):
     output += str(temp_list[index]) + "\t" + str(house_temp_list[index]) + "\t" + mode_change_list[index] \
