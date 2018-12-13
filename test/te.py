@@ -1,15 +1,9 @@
-import calculator
-import unittest
-
-class testforclalulator(unittest.TestCase):
-    def test_addition(self):
-        self.assertEqual(calculator.addition(2,3),5)
-
-    def test_multiplication(self):
-        self.assertEqual(calculator.multiplication(2,5),10)
-
-    def test_greater(self):
-        self.assertTrue(calculator.greater(5,4))
-
-if __name__ == '__main__':
-    unittest.main()
+import base64
+#from Crypto.Hash import MD5
+from Crypto.Hash import SHA512
+password="89757"
+secret = SHA512.new()
+secret.update(password.encode('utf-8'))
+hash=secret.hexdigest()
+print(hash)
+print(len(hash))
