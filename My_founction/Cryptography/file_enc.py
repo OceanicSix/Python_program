@@ -1,68 +1,66 @@
-import os, random
+import argparse, os, sys
+
 from Crypto.Cipher import AES
-from Crypto.Hash import SHA256
+from Crypto.Hash import HMAC
+from Crypto.Protocol.KDF import PBKDF2
 
+# check arguments
+parser = argparse.ArgumentParser()
+parser.add_argument("file", help="the file we want to encrypt/decrypt")
+parser.add_argument("key", help="your key")
+parser.add_argument("-e", "--encrypt", action="store_true")
+parser.add_argument("-d", "--decrypt", action="store_true")
+args = parser.parse_args()
 
-def encrypt(key, filename):
-    chunk_size = 64 * 1024
-    output_file = filename + ".enc"
-    file_size = str(os.path.getsize(filename)).zfill(16)
-    IV = ''
-    for i in range(16):
-        IV += chr(random.randint(0, 0xFF))
-    encryptor = AES.new(key, AES.MODE_CBC, IV)
-    with open(filename, 'rb') as inputfile:
-        with open(output_file, 'wb') as outf:
-            outf.write(file_size)
-            outf.write(IV)
-            while True:
-                chunk = inputfile.read(chunk_size)
-                if len(chunk) == 0:
-                    break
-                elif len(chunk) % 16 != 0:
-                    chunk += ' ' * (16 - len(chunk) % 16)
-                outf.write(encryptor.encrypt(chunk))
+# input file
+try:
+    inputfile = open(args.file, "rb")
+except IOError:
+    sys.exit("Could not open the input file")
 
+# output file
+try:
+    output = open("a.out", "wb")
+except IOError:
+    sys.exit("Could not create the output file")
 
-def decrypt(key, filename):
-    chunk_size = 64 * 1024
-    output_file = filename[:-4]
-    with open(filename, 'rb') as inf:
-        filesize = long(inf.read(16))
-        IV = inf.read(16)
-        decryptor = AES.new(key, AES.MODE_CBC, IV)
-        with open(output_file, 'wb') as outf:
-            while True:
-                chunk = inf.read(chunk_size)
-                if len(chunk) == 0:
-                    break
-                outf.write(decryptor.decrypt(chunk))
-            outf.truncate(filesize)
+# make 256bits keys for encryption and mac
+salt = "this is a salt"
+kdf = PBKDF2(args.key, salt, 64, 1000)
+key = kdf[:32]
+key_mac = kdf[32:]
 
+# create HMAC
+mac = HMAC.new(key_mac)  # default is MD5
 
-def getKey(password):
-    hasher = SHA256.new(password)
-    return hasher.digest()
+# encryption
+if args.encrypt:
+    iv = os.urandom(16)
+    cipher = AES.new(key, AES.MODE_CFB, iv)
 
+    encrypted = cipher.encrypt(inputfile.read())
+    mac.update(iv + encrypted)
 
-def main():
-    choice = raw_input("Select One of the following\n> 1. Encrypt \n> 2. Decrypt\n>>> ")
-    if choice == "1":
-        filename = raw_input("Enter the name of file to be encrypted >> ")
-        password = raw_input("Enter the password")
-        encrypt(getKey(password), filename)
-        print
-        "Done!\n%s ==> %s" % (filename, filename + ".enc")
-    elif choice == "2":
-        filename = raw_input("File to be decrypted > ")
-        password = raw_input("Password: ")
-        decrypt(getKey(password), filename)
-        print
-        "Done\n%s ==> %s" % (filename, filename[:-4])
-    else:
-        print
-        "No option Selected"
+    # output
+    output.write(mac.hexdigest())
+    output.write(iv)
+    output.write(encrypted)
 
+# decryption
+else:
+    data = inputfile.read()
+    # check for MAC first
+    verify = data[0:32]
+    mac.update(data[32:])
 
-if __name__ == "__main__":
-    main()
+    if mac.hexdigest() != verify:
+        sys.exit("message was modified, aborting decryption")
+
+    # decrypt
+    iv = data[32:48]
+    cipher = AES.new(key, AES.MODE_CFB, iv)
+
+    decrypted = cipher.decrypt(data[48:])
+
+    # output
+    output.write(decrypted)

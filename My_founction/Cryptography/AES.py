@@ -14,7 +14,12 @@ class AES_encryption:
         self.padding = padding
 
     def encrypt(self, message):
-        message = message + (self.block_size - len(message) % self.block_size) * self.padding
+        if isinstance(message,str):
+            message = message + (self.block_size - len(message) % self.block_size) * self.padding
+
+        elif isinstance(message,bytes):
+            message = message.decode("utf-8") + (self.block_size - len(message) % self.block_size) * self.padding
+            # if message is byte(binary file), need to conver to str in order to concatenate
         encrypted_message = self.cipher.encrypt(message)
         ciphertext = base64.b64encode(encrypted_message)
         return ciphertext
@@ -22,6 +27,7 @@ class AES_encryption:
     def decrypt(self, ciphertext):
         encrypted_message = base64.b64decode(ciphertext)
         message = self.cipher.decrypt(encrypted_message).decode("utf-8").rstrip(self.padding)  # convert message
+        #message = self.cipher.decrypt(encrypted_message)
         # from "byte" to "str"
         return message
 
