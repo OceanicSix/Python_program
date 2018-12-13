@@ -32,5 +32,5 @@ def encryption(msg):
 #     msg=decode_method(cipher,cipher_text)
 #     print(msg)
 
-encryption("abc")
+#encryption("abc")
 #decryption('5R8xLGnGRYvEmkIr+EOl/Q==')
