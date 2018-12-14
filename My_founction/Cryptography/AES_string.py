@@ -18,7 +18,7 @@ class AES_encryption:
             message = message + (self.block_size - len(message) % self.block_size) * self.padding
 
         elif isinstance(message,bytes):
-            message = message.decode("utf-8") + (self.block_size - len(message) % self.block_size) * self.padding
+            message = message+ (self.block_size - len(message) % self.block_size) * self.padding.encode("utf-8")
             # if message is byte(binary file), need to conver to str in order to concatenate
         encrypted_message = self.cipher.encrypt(message)
         ciphertext = base64.b64encode(encrypted_message)
@@ -34,6 +34,9 @@ class AES_encryption:
 
 if __name__ == '__main__':
     a_encryption = AES_encryption("89757")
-    ciphertext = a_encryption.encrypt("abcdefg")
+    input_file=open("123","r")
+    data=input_file.read()
+    print(data)
+    ciphertext = a_encryption.encrypt(data)
     print(ciphertext)
     print(a_encryption.decrypt(ciphertext))

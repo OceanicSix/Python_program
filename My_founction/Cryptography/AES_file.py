@@ -1,24 +1,26 @@
-from AES import AES_encryption
+import os, sys
+from Crypto.Cipher import AES
+from Crypto.Hash import HMAC
+from Crypto.Hash import MD5
 
-a_encryption=AES_encryption("89757")
+input_file = open("123", "rb")
+output_file = open("output", "wb")
 
-input_file=open("123","rb")
-output_file=open("output","wb+")
+decrypted_file = open("decrypted", "wb")
 
-while True:
-    buffer=input_file.read(64*1024)
+password = "89757"
+key = MD5.new()
+key.update(password.encode("utf-8"))  # convert password from "str" to "byte" type
+iv = os.urandom(16)
+cipher = AES.new(key.hexdigest(), AES.MODE_CFB, iv)
+encrypted = cipher.encrypt(input_file.read())
+output_file.write(encrypted)
+output_file.close()
 
-    if len(buffer)==0:
-        break
-    # elif len(buffer) % 16 != 0:
-    #     buffer = buffer.decode("utf-8")+' ' * (16 - len(buffer) % 16)
-    output_file.write(a_encryption.encrypt(buffer))
-
-
-
-decrypte_file=open("decrypte","wb")
-while True:
-    buffer = output_file.read(64 * 1024)
-    if len(buffer) == 0:
-        break
-    decrypte_file.write(a_encryption.decrypt(buffer))
+encrypted_file = open("output", "rb")
+data = encrypted_file.read()
+print(data)
+decrypted = cipher.decrypt(data)
+print(decrypted)
+decrypted_file.write(decrypted)
+decrypted_file.close()
