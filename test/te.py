@@ -1,9 +1,11 @@
-import base64
-#from Crypto.Hash import MD5
-from Crypto.Hash import SHA512
-password="89757"
-secret = SHA512.new()
-secret.update(password.encode('utf-8'))
-hash=secret.hexdigest()
-print(hash)
-print(len(hash))
+import multiprocessing as mp
+def cube(x):
+    return x**3
+if __name__ == '__main__':
+
+
+
+    pool = mp.Pool(processes = 2)
+
+    results = [pool.apply(cube, [x]) for x in range (1,5)]
+    print(results)

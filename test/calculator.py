@@ -13,4 +13,4 @@ def greater(x,y):
 
 addition_result=addition(3,5)
 greater_result=greater(3,5)
-pass
+print(addition_result)
