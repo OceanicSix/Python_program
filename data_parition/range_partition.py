@@ -1,41 +1,28 @@
 def range_partition(data, range_indices):
-    """
-    Perform range data partitioning on data
-
-    Arguments:
-    data -- an input dataset which is a list
-    range_indices -- the index list of ranges to be split
-
-    Return:
-    result -- the paritioned subsets of D
-    """
 
     result = []
 
-    ### START CODE HERE ###
-    # First, we sort the dataset according their values
-    new_data = list(data)
+    new_data = data[:]
     new_data.sort()
 
     # Calculate the number of bins
-    n_bin = len(range_indices)
+    range_index = len(range_indices)
 
     # For each bin, perform the following
-    for i in range(n_bin):
+    for i in range(range_index):
         # Find elements to be belonging to each range
-        s = [x for x in new_data if x < range_indices[i]]
+        lower_part = [x for x in new_data if x < range_indices[i]]
         # Add the partitioned list to the result
-        result.append(s)
+        result.append(lower_part)
         # Find the last element in the previous partition
-        last_element = s[len(s) - 1]
+        last_element = lower_part[-1]
         # Find the index of of the last element
         last = new_data.index(last_element)
         # Remove the partitioned list from the dataset
-        new_data = new_data[int(last) + 1:]
+        new_data = new_data[last + 1:]
 
-        # Append the last remaining data list
-    result.append([x for x in new_data if x >= range_indices[n_bin - 1]])
-    ### END CODE HERE ###
+    #append the remeaning list
+    result.append(new_data)
 
     return result
 

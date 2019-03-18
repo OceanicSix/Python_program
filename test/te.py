@@ -1,5 +1,4 @@
-import random
-def re_partition(data,n):
-    result=[]
-    random_num=random.randint(10)
-    
+a=[1,2,3]
+b=list(a)
+print(b)
+print(a)

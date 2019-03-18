@@ -1,48 +1,20 @@
-def s_hash(x, n):
-    """
-    Define a simple hash function for demonstration
+def s_hash(record_value, process_num):
 
-    Arguments:
-    x -- an input record
-    n -- the number of processors
+    hash_value = record_value % process_num
 
-    Return:
-    result -- the hash value of x
-    """
-
-    ### START CODE HERE ###
-    result = x % n
-    ### END CODE HERE ###
-
-    return result
+    return hash_value
 
 
-def h_partition(data, n):
-    """
-    Perform hash data partitioning on data
+def h_partition(data, processor_num):
 
-    Arguments:
-    data -- an input dataset which is a list
-    n -- the number of processors
-
-    Return:
-    result -- the paritioned subsets of D
-    """
-
-    ### START CODE HERE ###
     dic = {}  # We will use a dictionary
-    for x in data:  # For each data record, perform the following
-        h = s_hash(x, n)  # Get the hash key of the input
-        if (h in dic.keys()):  # If the key exists
-            s = dic[h]
-            s.add(x)
-            dic[h] = s  # Add the new input to the value set of the key
+    for record in data:  # For each data record, perform the following
+        hash_result = s_hash(record, processor_num)  # Get the hash key of the input
+        if (hash_result in dic.keys()):  # If the key exists
+             dic[hash_result].add(record)
         else:  # If the key does not exist
-            s = set()  # Create an empty value set
-            #s.update({x})
-            s.add(x)
-            dic[h] = s  # Add the value set to the key
-    ### END CODE HERE ###
+            dic[hash_result] = {record}  # Add the value set to the key
+
 
     return dic
 
