@@ -1,11 +1,5 @@
-import multiprocessing as mp
-def cube(x):
-    return x**3
-if __name__ == '__main__':
-
-
-
-    pool = mp.Pool(processes = 2)
-
-    results = [pool.apply(cube, [x]) for x in range (1,5)]
-    print(results)
+import random
+def re_partition(data,n):
+    result=[]
+    random_num=random.randint(10)
+    

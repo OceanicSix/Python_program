@@ -1,3 +1,5 @@
+#https://www.youtube.com/watch?v=fqjdXMu4ZAQ&t=212s
+
 import os
 from Crypto.Cipher import AES
 from Crypto.Hash import SHA256
