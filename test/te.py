@@ -1,3 +1,4 @@
-print(1, end="")
-print(3)
-a = 5
+a=[1,2,3]
+b=list(a)
+print(b)
+print(a)

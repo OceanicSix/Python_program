@@ -23,7 +23,7 @@ class TestForSum(unittest.TestCase):
 
 class testagain(unittest.TestCase):
     def testsum(self):
-        self.assertEqual(calculator.test_add_sum(3,2),6)
+        self.assertEqual(calculator.test_add_sum(3,2),5)
 
 
 # if __name__ == '__main__':
