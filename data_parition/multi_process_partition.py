@@ -48,11 +48,11 @@ def parallel_search_exact(data, target, processor_num, partition_method, search_
         # Perform data partitioning first
         partition_result = partition_method(data, processor_num)
         parallel_result=[pool.apply_async(linear_search,[data_set,target])for data_set in partition_result]
+
         for process in parallel_result:
-            output = process.get()  # if you use pool.apply_sync(), uncomment this.
-            #print(output)
-            results.append(output)  # if you use pool.apply_sync(), uncomment this.
-            # results.append(result) # if you use pool.apply_sync(), comment out this.
+            output = process.get()
+            results.append(output)
+
 
     """ 
     The method 'pool.apply()' will lock the function call until the function call is finished. 
