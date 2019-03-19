@@ -47,11 +47,9 @@ def parallel_search_exact(data, target, processor_num, partition_method, search_
     else:  # for round-robin or random-unequal partitioning method
         # Perform data partitioning first
         partition_result = partition_method(data, processor_num)
-        for data_set in partition_result:  # Perform parallel search on all data partitions
-            print(data_set)
-            result = pool.apply_async(search_method, [data_set, target])
-
-            output = result.get()  # if you use pool.apply_sync(), uncomment this.
+        parallel_result=[pool.apply_async(linear_search,[data_set,target])for data_set in partition_result]
+        for process in parallel_result:
+            output = process.get()  # if you use pool.apply_sync(), uncomment this.
             #print(output)
             results.append(output)  # if you use pool.apply_sync(), uncomment this.
             # results.append(result) # if you use pool.apply_sync(), comment out this.
@@ -86,5 +84,5 @@ if __name__ == '__main__':
     ### parallel searching for exact match
 
     # round-robin partition, linear_search
-    results = parallel_search_exact(data, query, n_processor, h_partition, linear_search)
+    results = parallel_search_exact(data, query, n_processor,rr_partition, linear_search)
     print(results)
