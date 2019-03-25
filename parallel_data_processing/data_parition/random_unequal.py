@@ -5,7 +5,7 @@ def ran_unequal(data,processor_num):
         result.append([])
 
     for record in data:
-        random_index=random.randint(0,2)
+        random_index=random.randint(0,processor_num-1)
         result[random_index].append(record)
 
     return result
