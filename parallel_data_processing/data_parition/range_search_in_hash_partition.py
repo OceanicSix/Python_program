@@ -21,26 +21,28 @@ def parallel_search_range(data, query_range, processor_num):
 
 
     #------------------------------------------solution provided---------------------------------
-
-    # for query in range(query_range[0], query_range[1], 1):
-    #     # Each element in DD has a pair (hash key: records)
-    #     query_hash =s_hash(query, processor_num)
-    #     data_set = list(partition_result[query_hash])
-    #     result = pool.apply(linear_search, [data_set, query])
-    #     results.append(result)
+    parallel_result=[]
+    for query in range(query_range[0], query_range[1], 1):
+        # Each element in DD has a pair (hash key: records)
+        query_hash =s_hash(query, processor_num)
+        data_set = list(partition_result[query_hash])
+        result = pool.apply_async(linear_search, [data_set, query])
+        parallel_result.append(result)
+    for i in parallel_result:
+        results.append(i.get())
 
     #---------------------------------My way of parallel processing---------------------------
 
 
-    hash_list=[]
-    for query in range(query_range[0], query_range[1], 1):
-        hash_list.append([query,s_hash(query, processor_num)])
-    parallel_result=[pool.apply_async(linear_search,[list(partition_result[hash_list[index][1]]),hash_list[index][0]])
-                     for index in range(len(hash_list))]
-
-    for processor in parallel_result:
-        output=processor.get()
-        results.append(output)
+    # hash_list=[]
+    # for query in range(query_range[0], query_range[1], 1):
+    #     hash_list.append([query,s_hash(query, processor_num)])
+    # parallel_result=[pool.apply_async(linear_search,[list(partition_result[hash_list[index][1]]),hash_list[index][0]])
+    #                  for index in range(len(hash_list))]
+    #
+    # for processor in parallel_result:
+    #     output=processor.get()
+    #     results.append(output)
 
 
     ### END CODE HERE ###

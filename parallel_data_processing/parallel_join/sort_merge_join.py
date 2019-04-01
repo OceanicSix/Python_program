@@ -1,3 +1,4 @@
+#Assume there is no duplicate values;
 def sort_merge_join(table_1, table_2):
     result = []
 
