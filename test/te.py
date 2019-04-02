@@ -1,3 +1,2 @@
-a=[1,2]
-b=a[2:]
-print(b)
+import pygame
+print(123)
