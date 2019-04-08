@@ -18,15 +18,7 @@ def local_groupby(dataset):
 
 
 def parallel_merge_all_groupby(dataset):
-    """
-    Perform a parallel merge_all groupby method
 
-    Arguments:
-    dataset -- entire record set to be merged
-
-    Return:
-    result -- the aggregated record dictionary according to the group_by attribute index
-    """
 
     result = {}
 
