@@ -1,14 +1,25 @@
-from aes import AES_encryption
+from AES import AES_encryption
+import json
+import os
 
-# user_name=input("user name: ")
-# seach_attr=input("seach attribute is: ")
+user_name=input("user name: ")
+command="cleos get table student student table --lower "+user_name+" --limit 1 > output.json"
+os.system(command)
+
+
+
+file=open("output.json","r")
+data=json.load(file)
+for record in data["rows"]:
+    print("first name: "+record["first_name"])
+    print("last name: "+record["last_name"])
+    print("grade:"+record["grade"])
+
+
 decryption_key=input("please input decryption key: ")
-
 decryption=AES_encryption(decryption_key)
 
-encrypted_record=['bo', 'yang', b'egwCUZ7cST1JhDNqDZq6xbWSTLVg5yP5R0tL1rIKOpA=']
-output=""
-output+="first name: "+encrypted_record[0]+"\n"\
-        "last name: "+encrypted_record[1]+"\n"\
-        "grade: "+decryption.decrypt_string(encrypted_record[2])
-print(output)
+for record in data["rows"]:
+    print("first name: "+record["first_name"])
+    print("last name: "+record["last_name"])
+    print("grade:"+decryption.decrypt_string(bytes(record["grade"],encoding="utf-8")))
