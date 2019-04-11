@@ -1,2 +1,2 @@
 #!/bin/bash
-python input_record.py
+python3 input_record.py
