@@ -73,10 +73,10 @@ class AES_encryption:
 
 if __name__ == '__main__':
     a_encryption = AES_encryption("89757")
-    # ciphertext = a_encryption.encrypt_string("abc")
-    # print(ciphertext)
-    # print(a_encryption.decrypt_string(ciphertext))
-    a_encryption.encrypt_file("file")
-    a_encryption.decrypt_file("file.enc")
+    ciphertext = a_encryption.encrypt_string("abc")
+    print(ciphertext)
+    print(a_encryption.decrypt_string(ciphertext))
+    # a_encryption.encrypt_file("file")
+    # a_encryption.decrypt_file("file.enc")
 
 
