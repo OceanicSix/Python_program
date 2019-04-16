@@ -21,6 +21,7 @@ def parallel_merge_all_sorting(dataset, n_processor, buffer_size):
     # Pool: a Python method enabling parallel processing.
     pool = mp.Pool(processes=n_processor)
 
+
     # ----- Sort phase -----
     parallel_result=[]
     sorted_set = []

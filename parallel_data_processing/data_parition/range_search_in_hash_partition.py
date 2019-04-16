@@ -28,6 +28,7 @@ def parallel_search_range(data, query_range, processor_num):
         data_set = list(partition_result[query_hash])
         result = pool.apply_async(linear_search, [data_set, query])
         parallel_result.append(result)
+        print(parallel_result)
     for i in parallel_result:
         results.append(i.get())
 

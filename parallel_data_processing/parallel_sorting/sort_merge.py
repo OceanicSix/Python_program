@@ -59,7 +59,7 @@ def serial_sorting(dataset, buffer_size): # assume main memory can only hold to 
             break
     ### END CODE HERE ###
 
-    return result
+    return result[0]
 
 if __name__ == '__main__':
     data = [8, 12, 16, 4, 11, 15, 3, 7, 14, 2, 6, 10, 1, 5, 9, 13]

@@ -1,3 +1,2 @@
-a={1:"1",2:"2"}
-for key, value in a:
-    print(int(key), value)
+a=[1,2,3]
+print(a.index(2))
