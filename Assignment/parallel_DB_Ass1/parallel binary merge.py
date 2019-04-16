@@ -1,4 +1,5 @@
 # You will have to edit qsort(arr) to make it work.
+
 def qsort(arr):
     """
     Quicksort a list
@@ -14,8 +15,8 @@ def qsort(arr):
     else:
         # take the first element as the pivot
         pivot = arr[0]
-        left_arr = [x for x in arr[1:] if x < pivot]  # Edit is required here
-        right_arr = [x for x in arr[1:] if x >= pivot]  # Edit is required here
+        left_arr = [x for x in arr[1:] if x[1] < pivot[1]]  # Edit is required here
+        right_arr = [x for x in arr[1:] if x[1] >= pivot[1]]  # Edit is required here
         # uncomment this to see what to print
         # print("Left:" + str(left_arr)+" Pivot : "+ str(pivot)+" Right: " + str(right_arr))
         value = qsort(left_arr) + [pivot] + qsort(right_arr)
@@ -41,7 +42,7 @@ def find_min(records):
     m = records[0]
     index = 0
     for i in range(len(records)):
-        if (records[i] < m):  # Edit is required here
+        if (records[i][1] < m[1]):  # Edit is required here
             index = i
             m = records[i]
     return index
@@ -72,7 +73,7 @@ def k_way_merge(record_sets):
         # This loop gets the current position of every buffer
         for i in range(len(record_sets)):
             if (indexes[i] >= len(record_sets[i])):
-                merged_result.append(sys.maxsize)  # Edit is required here
+                merged_result.append(("place_filler",sys.maxsize))  # Edit is required here
             else:
                 merged_result.append(record_sets[i][indexes[i]])
 
@@ -80,7 +81,7 @@ def k_way_merge(record_sets):
         smallest = find_min(merged_result)
 
         # if we only have sys.maxsize on the tuple, we reached the end of every record set
-        if (merged_result[smallest] == sys.maxsize):  # Edit is required here
+        if (merged_result[smallest][1] == sys.maxsize):  # Edit is required here
             break
 
         # This record is the next on the merged list
@@ -181,6 +182,9 @@ def rr_partition(data, processor_num):
 
     return result
 
+# Include this package for parallel processing
+
+
 def parallel_binary_merge_sorting(dataset, n_processor, buffer_size):
     """
     Perform a parallel binary-merge sorting method
@@ -201,62 +205,58 @@ def parallel_binary_merge_sorting(dataset, n_processor, buffer_size):
     result = []
 
     ### START CODE HERE ###
+
+    #perform round robin partition
     partition_result=rr_partition(dataset,n_processor)
 
-
-    ### END CODE HERE ###
-
-    return result
-
-
-# def parallel_binary_merge_sorting1(dataset,buffer_size):
-#     result=[]
-#     num_of_dataset=len(dataset)
-#     if num_of_dataset==1:
-#         return result
-#     pool = mp.Pool(processes=2)
-#     parallel_result = []
-#     sorted_set = []
-#     for data in dataset:
-#         parallel_result.append(pool.apply_async(serial_sorting, [data, buffer_size]))
-#     for processor in parallel_result:
-#         sorted_set += processor.get()
-#     pool.close()
-#     print("sorted entire set:" + str(sorted_set))
-#     result = k_way_merge(sorted_set)
-
-def parallel_merge_all_sorting(dataset, n_processor, buffer_size):
-
-    if (buffer_size <= 2):
-        print("Error: buffer size should be greater than 2")
-        return
-
-    result = []
-
-    ### START CODE HERE ###
-
-    # Pre-requisite: Perform data partitioning using round-robin partitioning
-    subsets = rr_partition(dataset, n_processor)
-
-    # Pool: a Python method enabling parallel processing.
+    # ---------------------------sorting phase-----------------------
     pool = mp.Pool(processes=n_processor)
+    sorted_lists = []    # a list to store all sorted data_set
+    parallel_result = [] # a list to store all the multi-processing object
 
-
-    # ----- Sort phase -----
-    parallel_result=[]
-    sorted_set = []
-    for data in subsets:
-        parallel_result.append(pool.apply_async(serial_sorting, [data, buffer_size]))
+    #each processor sort their own partition in parallel, then add the result into sorted_lists
+    for data_set in partition_result:
+        parallel_result.append(pool.apply_async(serial_sorting, [data_set, buffer_size]))
     for processor in parallel_result:
-        sorted_set+=processor.get()
+        sorted_lists.append(processor.get()[0])
     pool.close()
 
-    # ---- Final merge phase ----
-    print("sorted entire set:" + str(sorted_set))
-    result = k_way_merge(sorted_set)
+
+ # ---------------------------merging phase-----------------------
+    while (len(sorted_lists) != 1):  # loop ends when there is only one data_set left, in other words, the merging is finished
+        merging_result = []             # used to stored the result of merging
+        if len(sorted_lists) % 2 == 1:
+            merging_result.append(sorted_lists.pop())  # first check if the number of data_set is an even number
+                                                    # if yes, the last dataset will be added into merging result directly
+
+        start_pos = 0
+        num_of_merge = int(len(sorted_lists) / 2)   #As every two data_set is merged togerther, then the number of merge
+                                                    #can be calculated in this way
+
+        pool = mp.Pool(processes=num_of_merge) # each merge require one processor
+        parallel_result = []
+        for i in range(num_of_merge):
+            merged_list = pool.apply_async(k_way_merge, [sorted_lists[start_pos:start_pos + 2]])#each process works on two different data_set
+            start_pos += 2
+            parallel_result.append(merged_list)
+        for processor in parallel_result:
+            merging_result.append(processor.get())
+        sorted_lists = merging_result # the result of merging become the input of next iteration
+        pool.close()
+        result=sorted_lists[0]
+
+
     ### END CODE HERE ###
 
     return result
+    ### END CODE HERE ###
+
+
+
+
+
+
+
 
 if __name__ == '__main__':
 
@@ -267,5 +267,5 @@ if __name__ == '__main__':
         # S consists of 8 pairs, each comprising two attributes (nominal and numeric)
     S = [('Arts', 8), ('Business', 15), ('CompSc', 2), ('Dance', 12), ('Engineering', 7),
              ('Finance', 21), ('Geology', 10), ('Health', 11), ('IT', 18)]
-    result = parallel_merge_all_sorting(R, 10, 20)
+    result = parallel_binary_merge_sorting(R,10,20)
     print("Final Result:" + str(result))

@@ -32,7 +32,7 @@ def k_way_merge(record_sets):
     while (True):
         buffer = []  # initialise buffer to store the input record
 
-        # This loop gets the current position of every buffer
+        # This loop gets the current position of every buffer, then append these item into buffer, then it can find which one is the samllest
         for i in range(len(record_sets)):
             if (indexes[i] >= len(record_sets[i])):
                 buffer.append(sys.maxsize)

@@ -1,10 +1,14 @@
-from parallel_data_processing.parallel_sorting.parallel_merge_all_sort import parallel_merge_all_sorting
 from parallel_data_processing.data_parition.round_robin import rr_partition
 from parallel_data_processing.parallel_sorting.sort_merge import serial_sorting
 from parallel_data_processing.parallel_sorting.k_way_merging import k_way_merge
 import multiprocessing as mp
+
+
 def parallel_binary_merge(data,n_processor,buffer_size):
+
     data_sets=rr_partition(data,n_processor)
+
+#---------------------------sorting phase-----------------------
     pool=mp.Pool(processes=n_processor)
     sorted_lists=[]
     parallel_result=[]
@@ -15,6 +19,7 @@ def parallel_binary_merge(data,n_processor,buffer_size):
     pool.close()
     print(sorted_lists)
 
+# ---------------------------merging phase-----------------------
     while(len(sorted_lists)!=1):
         merged_set=[]
         if len(sorted_lists)%2==1:
@@ -31,6 +36,7 @@ def parallel_binary_merge(data,n_processor,buffer_size):
         for processor in parallel_result:
             merged_set.append(processor.get())
         sorted_lists=merged_set
+        pool.close()
         print(sorted_lists)
 
     return sorted_lists[0]
