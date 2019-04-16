@@ -243,7 +243,7 @@ def parallel_binary_merge_sorting(dataset, n_processor, buffer_size):
             merging_result.append(processor.get())
         sorted_lists = merging_result # the result of merging become the input of next iteration
         pool.close()
-        result=sorted_lists[0]
+    result=sorted_lists[0]
 
 
     ### END CODE HERE ###
