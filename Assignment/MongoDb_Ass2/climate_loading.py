@@ -10,7 +10,7 @@ single_data={"station":0,
              "relative_humidity":0,
              "windspeed_knots":0,
              "max_wind_speed":0,
-             "precipitation ":0}
+             "precipitation":0}
 
 entire_data=[]
 

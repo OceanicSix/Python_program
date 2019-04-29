@@ -1,3 +1,9 @@
+import pymongo
+from pymongo import MongoClient
+from pprint import pprint
+
+#--------------read the dataset--------------
+
 single_data={"latitude":0,
              "longitude":0,
              "datetime":0,
@@ -21,3 +27,14 @@ for line in data:
     entire_data.append(single_data.copy())
 
 print(entire_data)
+
+#-------------load the dataset to mongoDB----------
+
+client=MongoClient("localhost",9999)
+db=client.fit5148_assignment
+db.hotspot_historic.drop()
+hotspot_historic=db.hotspot_historic
+hotspot_historic.insert_many(entire_data)
+result=hotspot_historic.find()
+for document in result:
+    pprint(document)
