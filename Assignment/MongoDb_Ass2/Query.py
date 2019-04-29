@@ -63,5 +63,10 @@ hotspot_historic=db.hotspot_historic
 # myprint(result)
 
 #Q2.f
-result=hotspot_historic.aggregate([{"$group":{"date":"$date","number_of_fire":{"$sum":1}}}])
+# result=hotspot_historic.aggregate([{"$group":{"_id":"$date","number_of_fire":{"$sum":1}}}])
+# myprint(result)
+
+
+#Q2.g
+result=hotspot_historic.aggregate([{"$group":{"_id":"$date","average_surface_temperature":{"$avg":"$surface_temperature_celcius"}}}])
 myprint(result)
