@@ -1,3 +1,9 @@
+import pymongo
+from pymongo import MongoClient
+from pprint import pprint
+
+#--------------read the dataset--------------
+
 single_data={"station":0,
              "date":0,
              "air_temperature_celcius":0,
@@ -22,4 +28,16 @@ for line in data:
     single_data["precipitation"]=data_list[6]
     entire_data.append(single_data.copy())
 
-print(entire_data)
+pprint(entire_data)
+
+
+#-------------load the dataset to mongoDB----------
+
+client=MongoClient("localhost",9999)
+db=client.fit5148_assignment
+db.climate_historic.drop()
+climate_historic=db.climate_historic
+climate_historic.insert_many(entire_data)
+result=climate_historic.find()
+for document in result:
+    pprint(document)
