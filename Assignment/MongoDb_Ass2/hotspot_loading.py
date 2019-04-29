@@ -26,7 +26,7 @@ for line in data:
     single_data["surface_temperature_celcius"]=int(data_list[5])
     entire_data.append(single_data.copy())
 
-print(entire_data)
+pprint(entire_data)
 
 #-------------load the dataset to mongoDB----------
 
