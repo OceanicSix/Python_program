@@ -32,27 +32,36 @@ hotspot_historic=db.hotspot_historic
 #                                             "from":"hotspot_historic",
 #                                             "localField":"date",
 #                                             "foreignField":"date",
-#                                             "as":"join_result"
+#                                             "as":"surface_temperatures"
 #                                         }
 #                                     },
 #                                    {"$project":{"_id":0,"date":1,"air_temperature_celcius":1,"relative_humidity":1,
-#                                                 "max_wind_speed":1,"join_result.surface_temperature_celcius":1}}
+#                                                 "max_wind_speed":1,"surface_temperatures.surface_temperature_celcius":1}}
 #
 # ])
 # myprint(result)
 
 #Q2.d
-result=hotspot_historic.aggregate([{"$match":{"$and":[{"confidence":{"$gt":80}},{"confidence":{"lt":100}}]}},
-                                   # {
-                                   #     "$lookup":
-                                   #         {
-                                   #          "from":"climate_historic",
-                                   #          "localField":"date",
-                                   #          "foreignField":"date",
-                                   #          "as":"join_result"
-                                   #          }
-                                   # },
-                                   # {"$project":{"_id":0,"datetime":1,"join_result.air_temperature_celcius":1,"surface_temperature_celcius":1,
-                                   #              "confidence":1}}
-                                   ])
+# result=hotspot_historic.aggregate([{"$match":{"$and":[{"confidence":{"$gt":80}},{"confidence":{"$lt":100}}]}},
+#                                    {
+#                                        "$lookup":
+#                                            {
+#                                             "from":"climate_historic",
+#                                             "localField":"date",
+#                                             "foreignField":"date",
+#                                             "as":"air_temperatures"
+#                                             }
+#                                    },
+#                                    {"$project":{"_id":0,"datetime":1,"air_temperatures.air_temperature_celcius":1,"surface_temperature_celcius":1,
+#                                                 "confidence":1}}
+#                                    ])
+# myprint(result)
+
+
+#Q2.e
+# result=hotspot_historic.find({},{"_id":0}).sort("surface_temperature_celcius",pymongo.DESCENDING).limit(10)
+# myprint(result)
+
+#Q2.f
+result=hotspot_historic.aggregate([{"$group":{"date":"$date","number_of_fire":{"$sum":1}}}])
 myprint(result)
