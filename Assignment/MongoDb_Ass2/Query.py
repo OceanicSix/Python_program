@@ -26,16 +26,33 @@ hotspot_historic=db.hotspot_historic
 
 #Q2.c
 
-result=climate_historic.aggregate([{"$match":{"$or":[{"date":"15/12/2017"},{"date":"16/12/2017"}]}},
-                                   {"$lookup":
-                                        {
-                                            "from":"hotspot_historic",
+# result=climate_historic.aggregate([{"$match":{"$or":[{"date":"15/12/2017"},{"date":"16/12/2017"}]}},
+#                                    {"$lookup":
+#                                         {
+#                                             "from":"hotspot_historic",
+#                                             "localField":"date",
+#                                             "foreignField":"date",
+#                                             "as":"join_result"
+#                                         }
+#                                     },
+#                                    {"$project":{"_id":0,"date":1,"air_temperature_celcius":1,"relative_humidity":1,
+#                                                 "max_wind_speed":1,"join_result.surface_temperature_celcius":1}}
+#
+# ])
+# myprint(result)
+
+#Q2.d
+result=hotspot_historic.aggregare([{"$match":{"$and":[{"confidence":{"$gt":80}},{"confidence":{"lt":100}}]}},
+                                   {
+                                       "$lookup":
+                                           {
+                                            "from":"climate_historic",
                                             "localField":"date",
                                             "foreignField":"date",
                                             "as":"join_result"
-                                        }},
-                                   {"$project":{"_id":0,"date":1,"air_temperature_celcius":1,"relative_humidity":1,
-                                                "max_wind_speed":1,"join_result.surface_temperature_celcius":1}}
-
-])
+                                            }
+                                   },
+                                   {"$project":{"_id":0,"datetime":1,"join_result.air_temperature_celcius":1,"surface_temperature_celcius":1,
+                                                "confidence": 1}}
+                                   ])
 myprint(result)
