@@ -2,7 +2,7 @@ import pymongo
 from pymongo import MongoClient
 from pprint import pprint
 
-client=MongoClient()
+client=MongoClient("localhost",9999)
 db=client.fit
 db.montours.drop()
 
