@@ -26,20 +26,20 @@ hotspot_historic=db.hotspot_historic
 
 #Q2.c
 
-# result=climate_historic.aggregate([{"$match":{"$or":[{"date":"15/12/2017"},{"date":"16/12/2017"}]}},
-#                                    {"$lookup":
-#                                         {
-#                                             "from":"hotspot_historic",
-#                                             "localField":"date",
-#                                             "foreignField":"date",
-#                                             "as":"surface_temperatures"
-#                                         }
-#                                     },
-#                                    {"$project":{"_id":0,"date":1,"air_temperature_celcius":1,"relative_humidity":1,
-#                                                 "max_wind_speed":1,"surface_temperatures.surface_temperature_celcius":1}}
-#
-# ])
-# myprint(result)
+result=climate_historic.aggregate([{"$match":{"$or":[{"date":"15/12/2017"},{"date":"16/12/2017"}]}},
+                                   {"$lookup":
+                                        {
+                                            "from":"hotspot_historic",
+                                            "localField":"date",
+                                            "foreignField":"date",
+                                            "as":"surface_temperatures"
+                                        }
+                                    },
+                                   {"$project":{"_id":0,"date":1,"air_temperature_celcius":1,"relative_humidity":1,
+                                                "max_wind_speed":1,"surface_temperatures.surface_temperature_celcius":1,"surface_temperatures.datetime":1}}
+
+])
+myprint(result)
 
 #Q2.d
 # result=hotspot_historic.aggregate([{"$match":{"$and":[{"confidence":{"$gt":80}},{"confidence":{"$lt":100}}]}},
@@ -68,5 +68,5 @@ hotspot_historic=db.hotspot_historic
 
 
 #Q2.g
-result=hotspot_historic.aggregate([{"$group":{"_id":"$date","average_surface_temperature":{"$avg":"$surface_temperature_celcius"}}}])
-myprint(result)
+# result=hotspot_historic.aggregate([{"$group":{"_id":"$date","average_surface_temperature":{"$avg":"$surface_temperature_celcius"}}}])
+# myprint(result)
