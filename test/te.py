@@ -1,2 +1,4 @@
-a=[1,2,3]
-print(a.index(2))
+import random
+a=[1,3,4]
+random.shuffle(a)
+print(a)
