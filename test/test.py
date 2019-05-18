@@ -1,7 +1,3 @@
-def dic(dictionary):
-    dictionary["a"]=1
-
-a={}
-
-dic(a)
+import random
+a=random.randrange(1,2)
 print(a)
