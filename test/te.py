@@ -1,4 +1,4 @@
-import random
-a=[1,3,4]
-random.shuffle(a)
-print(a)
+a=set()
+a.add("i")
+a.add("i")
+print(len(a))

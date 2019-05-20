@@ -6,8 +6,8 @@ import matplotlib.pyplot as plt
 import statistics
 
 # this line is needed for the inline display of graphs in Jupyter Notebook
-% matplotlib
-notebook
+# % matplotlib
+# notebook
 
 topic = 'Scenario04'
 
