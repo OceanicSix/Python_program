@@ -6,7 +6,7 @@
 #Given the limited document size in MongoDB and amount of data need to be stored, embedding modeling approach will consume too much
 #storage to effieciently store and load from MongoDB. Hence, referercing modelling method is adopted.
 
-#As for how these two dataset are referenced together, the given query which consistute the use case is taken into consideration.Based on
+#As for how these two dataset are referenced together, the given query which constitutes the use case is taken into consideration.Based on
 # the query f and g, it is more efficient to have hotspot data keep the "date" field. As a result, the final data model is climate data as
 #parent. which is constructed as
 # #single_data={"station":0,
