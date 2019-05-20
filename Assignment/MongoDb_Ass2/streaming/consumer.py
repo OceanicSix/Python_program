@@ -15,15 +15,25 @@ def sendDataToDB(iter):
     client = MongoClient()
     db = client.fit5148_db
     week12 = db.week12
+    # join_result = set()
+    # join_list = []
     for record in iter:
         join_result = set()
-        join_list = []
-        for i in record[1]:
-            join_result.add(i.split(",")[1])
-            join_list.append(i)
-        if len(join_result)>1:
-            join_list.insert(0,record[0])
-            print(join_list)
+        # join_list = []
+        # print(record[1])
+        # print(123)
+        for result in record[1]:
+            join_result.add(result)
+            print(join_result)
+
+        print(123)
+        #     join_result.add(i.split(",")[1])
+        #     join_list.append(i)
+        # print(join_resuIlt)
+        # if len(join_esult)>1:
+        #     join_list.insert(0,record[0])
+        #     print(join_list)
+
 
 
 
