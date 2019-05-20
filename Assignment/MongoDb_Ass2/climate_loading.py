@@ -1,13 +1,13 @@
-#In this task, there are two datasets: one is climate data which record climate status per day. The other one is hotspot data in which
+#In this task, there are two datasets: one is climate data which record climate status in one entry per day. The other one is hotspot data in which
 # instances of fire in each day are recorded. Therefore, for each record in climate data there could be multiple records in hotspot data
-#that contains the data in the same date. Overall, it forms a one-to-many relationship ( climate data is one side whereas hotspot data is the
+#that contains the data about the same day. Overall, it forms a one-to-many relationship ( climate data is one side whereas hotspot data is the
 #many side)
 
 #Given the limited document size in MongoDB and amount of data need to be stored, embedding modeling approach will consume too much
-#storage to effieciently store and load from MongoDB. Hence, referercing modelling method is adopted.
+#storage to effieciently store and load data from MongoDB. Hence, referercing modelling method is adopted.
 
-#As for how these two dataset are referenced together, the given query which constitutes the use case is taken into consideration.Based on
-# the query f and g, it is more efficient to have hotspot data keep the "date" field. As a result, the final data model is climate data as
+#As for how these two dataset are referenced together, the given queries which constitutes the use case is taken into consideration.Based on
+# the query f and g, it is more efficient to have hotspot data keep the "date" field. As a result, the final data model is having climate data as
 #parent. which is constructed as
 # #single_data={"station":0,
 #              "date":0,
@@ -18,7 +18,7 @@
 #              "precipitation":0}
 
 
-#And it reference its child "hotspot data" through field "date". The hotspot data is constructed as
+#And it references its child "hotspot data" through field "date". The hotspot data is constructed as
 
 # single_data={"latitude":0,
 #              "longitude":0,
