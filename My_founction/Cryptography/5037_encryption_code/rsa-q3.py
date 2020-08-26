@@ -4,7 +4,7 @@ import os
 
 def get_args():
     parser = argparse.ArgumentParser(description='RSA Encryption and Decryption')
-    parser.add_argument('--mode', choices=['keygen', 'encrypt'])
+    parser.add_argument('--mode', choices=['keygen', 'encrypt', 'test'])
     parser.add_argument('--key_length', type=int, default=4096, help='Key length (in bits)')
     parser.add_argument('--output_dir', type=str, default='.', help='Output  directory')
     parser.add_argument('--key_dir', type=str, default='.', help='Where the key is stored')
@@ -14,6 +14,7 @@ def get_args():
 
 def key_gen(key_length, output_dir):
     # TODO starts
+    key=RSA.generate(key_length)
     # TODO ends
     f = open(os.path.join(output_dir, 'public.pem'), 'wb')
     f.write(key.publickey().exportKey('PEM'))
@@ -24,6 +25,8 @@ def key_gen(key_length, output_dir):
 
 def load_key(key_dir):
     # TODO starts
+    key_file = open(key_dir,"r")
+    key=RSA.importKey(key_file.read())
     # TODO ends
     return key
 

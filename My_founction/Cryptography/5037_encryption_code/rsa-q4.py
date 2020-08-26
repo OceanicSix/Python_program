@@ -62,6 +62,11 @@ def main():
     print ( 'Encrypted PIN is \n{} '.format(c))
     for i in range (0 ,1000000) :
         # TODO starts
+        test_result=powmod(i,e,n)
+        if test_result==c:
+            print("user pin is: "+str(i))
+
+
         # TODO ends
 if __name__ == '__main__':
     main()

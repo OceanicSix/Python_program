@@ -41,16 +41,23 @@ k = ("Network Security").encode('utf-8')
 iv = ("1234"*4).encode('utf-8')
 
 #plaintext is a character string of 5 blocks of 16 bytes 
-plaintext = "Monash_FIT3031**"*5
+plaintext_beofre = "Monash_FIT3031**"*5
+plaintext=plaintext_beofre.encode("utf-8")
 
 print("Plaintext")
 print(plaintext)
 
-ciphertext= encryption(k,plaintext,iv,AES.MODE_ECB)
+mode=AES.MODE_CTR
+
+ciphertext= encryption(k,plaintext,iv,mode)
 
 print("Ciphertext in hex mode")
 print(ciphertext)
 
-content= decryption(k,ciphertext,iv,AES.MODE_ECB).decode("utf-8")
+content_beofre= decryption(k,ciphertext,iv,mode)
+
+print("content before decode")
+print(content_beofre)
+content=content_beofre.decode("utf-8")
 print("Content after decryption")
 print(content)
