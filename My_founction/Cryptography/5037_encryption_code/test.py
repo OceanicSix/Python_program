@@ -20,7 +20,7 @@ serect_key_object=key.exportKey("PEM")
 print("\n"+"\n")
 
 
-ct=RSA.importKey(pub_key_object).encrypt("123".encode("utf-8"),30)
+ct=RSA.importKey(pub_key_object).encrypt("123".encode("utf-8"),31)
 print(ct)
 
 pt=RSA.importKey(serect_key_object).decrypt(ct)
