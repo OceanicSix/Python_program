@@ -1,10 +1,8 @@
 from scapy.all import *
-a=IP()
 
-a.src=RandIP()
-a.dst="10.0.2.3"
-b=ICMP()
+def print_pkt(pkt):
 
+    print("---------------this is a new packet----------------------")
+    pkt.show()
 
-p=a/b
-send(p)
+pkt=sniff( prn=print_pkt)

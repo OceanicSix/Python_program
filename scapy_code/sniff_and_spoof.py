@@ -15,5 +15,5 @@ def spoof_pkt(pkt):
     p.show()
     send(p)
 
-
-a=sniff(filter= "icmp[icmptype]=icmp-echo" , prn=spoof_pkt)
+ifacevalue="Qualcomm Atheros AR956x Wireless Network Adapter"
+sniff(iface=ifacevalue, filter= "icmp[icmptype]=icmp-echo" , prn=spoof_pkt)
