@@ -1,8 +1,4 @@
-from scapy.all import *
+file = open("D:\Google Drive\Study\S1\Python\PY program\Socket_programming\certs\DigiCert_Global_Root_CA.pem","r")
 
-def print_pkt(pkt):
-
-    print("---------------this is a new packet----------------------")
-    pkt.show()
-
-pkt=sniff( prn=print_pkt)
+for line in file:
+    print(line)
