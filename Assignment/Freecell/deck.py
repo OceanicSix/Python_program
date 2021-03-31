@@ -39,6 +39,8 @@ class Deck:
         self.the_deck[index]=card
 
 
+
+
     #for test purpose, not used in notfreecell
     def __str__(self):
         display=''
