@@ -6,7 +6,7 @@ def input_validation(string):
             print("please input the valid number"+"\n")
             return False
         if "t=" in string and "d=" not in string:
-            print("please input the valid number" + "\n")
+            print("plIease input the valid number" + "\n")
             return False
         if "d=" in string and "t=" not in string:
             print("please input the valid number" + "\n")
