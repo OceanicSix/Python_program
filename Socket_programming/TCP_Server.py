@@ -1,4 +1,11 @@
+import threading
 from socket import *
+
+def provide_service(socket, addr):
+    while True:
+        message= socket.recv(1024)
+        if message:
+            print(message.decode())
 serverPort = 12000
 #Create server socket
 serverSocket = socket(AF_INET,SOCK_STREAM)
@@ -9,7 +16,5 @@ serverSocket.listen(2)
 print( "The server is ready to receive")
 while True:
     connectionSocket, addr = serverSocket.accept()
-    sentence = connectionSocket.recv(1024).decode()
-    capitalizedSentence = sentence.upper()
-    connectionSocket.send(capitalizedSentence.encode())
-    connectionSocket.close()
+    threading.Thread(target=provide_service, args=(connectionSocket, addr)).start()
+
