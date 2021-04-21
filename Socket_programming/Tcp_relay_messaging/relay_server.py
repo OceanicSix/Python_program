@@ -35,7 +35,7 @@ def provide_service(socket,addr):
 
 
 serverPort = 12000
-serverIP= "localhost"
+serverIP= "0.0.0.0"
 #Create server socketI
 serverSocket = socket(AF_INET,SOCK_STREAM)
 #Associate the port number with the socket

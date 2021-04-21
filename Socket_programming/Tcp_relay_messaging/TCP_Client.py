@@ -16,7 +16,7 @@ def foo(socket):
 
 
 
-serverName = "localhost"
+serverName = "45.76.123.227"
 serverPort = 12000
 ## create client socket, first argument indicates IPv4, second argument means it is TCP socket
 clientSocket = socket(AF_INET, SOCK_STREAM)
