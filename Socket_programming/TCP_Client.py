@@ -1,10 +1,6 @@
 import threading
 from socket import *
 
-
-
-
-
 serverName = "localhost"
 serverPort = 12000
 ## create client socket, first argument indicates IPv4, second argument means it is TCP socket
