@@ -1,19 +1,20 @@
 import threading
 from socket import *
 
+def provide_service(socket, addr):
+        message= socket.recv(1024)
+        print(message.decode())
+        socket.close()
 
 serverPort = 12000
 #Create server socket
 serverSocket = socket(AF_INET,SOCK_STREAM)
 #Associate the port number with the socket
-serverSocket.bind(('0.0.0.0',serverPort))
+serverSocket.bind(('localhost',serverPort))
 #Maximum connection is 1
 serverSocket.listen(2)
 print( "The server is ready to receive")
 while True:
     connectionSocket, addr = serverSocket.accept()
-    message = connectionSocket.recv(1024).decode()
-    print(message)
-    connectionSocket.close()
-
+    threading.Thread(target=provide_service, args=(connectionSocket, addr)).start()
 
