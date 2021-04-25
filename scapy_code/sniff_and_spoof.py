@@ -1,4 +1,6 @@
 from scapy.all import *
+from scapy.layers.inet import IP, ICMP
+
 
 def spoof_pkt(pkt):
     print("-----------------sniffed packet-----------")

@@ -7,7 +7,7 @@ serverPort = 12000
 serverSocket = socket(AF_INET,SOCK_STREAM)
 #Associate the port number with the socket
 serverSocket.bind(('0.0.0.0',serverPort))
-#Maximum connection is 1
+#Maximum Iconnection is 1
 serverSocket.listen(2)
 print( "The server is ready to receive")
 while True:
