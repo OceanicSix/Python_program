@@ -1,5 +1,6 @@
-from scapy.all import *
+
 from scapy.layers.inet import IP, ICMP
+from scapy.sendrecv import sniff, send
 
 
 def spoof_pkt(pkt):

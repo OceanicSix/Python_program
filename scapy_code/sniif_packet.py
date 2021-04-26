@@ -3,6 +3,8 @@ from scapy.all import *
 def print_pkt(pkt):
 
     print("---------------this is a new packet----------------------")
-    pkt.show()
 
-pkt=sniff(filter= "icmp and host 192.168.0.6 " , prn=print_pkt)
+    new_pkt = pkt[IP]
+    new_pkt.show()
+
+sniff(filter= "host seanyiyi.com" , prn=print_pkt)

@@ -1,14 +1,5 @@
-from threading import Timer
+from scapy.all import *
 
+newpkt=IP()
 
-
-
-def foo():
-    raise Exception
-
-try:
-    t=Timer(2,foo)
-    t.daemon=True
-    a=input("type soImething...")
-except:
-    print("all good")
+newpkt.show()

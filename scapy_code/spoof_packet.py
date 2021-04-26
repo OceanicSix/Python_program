@@ -12,10 +12,11 @@ from scapy.layers.inet import IP, ICMP, UDP
 
 # Spoof UDP
 
-ip=IP(src = "210.49.192.134", dst="45.76.123.227")
+ip=IP(src="8.8.8.8",dst="seanyiyi.com")
 
 udp= UDP(sport = 8888, dport = 9000)
 
 data="hello/n"
 pkt = ip/udp/data
 send(pkt,verbose=0)
+
