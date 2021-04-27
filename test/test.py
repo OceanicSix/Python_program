@@ -1,5 +1,5 @@
 from scapy.all import *
 
-newpkt=IP()
+newpkt=ICMP()
 
 newpkt.show()

@@ -5,6 +5,7 @@ def print_pkt(pkt):
     print("---------------this is a new packet----------------------")
 
     new_pkt = pkt[IP]
-    new_pkt.show()
+    if new_pkt[ICMP]:
+        new_pkt.show()
 
-sniff(filter= "host seanyiyi.com" , prn=print_pkt)
+sniff(filter= "icmp" , prn=print_pkt)
