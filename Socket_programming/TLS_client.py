@@ -3,16 +3,16 @@
 import socket, ssl, sys, pprint
 
 hostname = sys.argv[1]
-port = 443
-cadir = 'D:\Google Drive\Study\S1\Python\PY program\Socket_programming\certs'
+port = 4433
+#cadir = 'D:\Google Drive\Study\S1\Python\PY program\Socket_programming\certs'
 #cafile="D:\Google Drive\Study\S1\Python\PY program\Socket_programming\certs\DigiCert_Global_Root_CA.pem"
 
 # Set up the TLS context
-# context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT) # For Ubuntu 20.04 VM
+#context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENIT) # For Ubuntu 20.04 VM
 context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)      # For Ubuntu 16.04 VM
 
-
-context.load_verify_locations(cafile=None, capath=cadir, cadata=None)   #CA certificate
+context.load_default_certs()
+#context.load_verify_locations(cafile=None, capath=cadir, cadata=None)   #CA certificate
 context.verify_mode = ssl.CERT_REQUIRED
 context.check_hostname = True                 #check whether hostname in argument match common name in cert
 

@@ -1,5 +1,3 @@
-from scapy.all import *
-
-newpkt=ICMP()
-
-newpkt.show()
+import string
+character_list=string.printable
+print(character_list)

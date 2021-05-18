@@ -30,6 +30,7 @@ while True:
         ssock.shutdown(socket.SHUT_RDWR)  # Close the TLS connection
         ssock.close()
 
-    except Exception:
+    except Exception as e:
         print("TLS connection fails")
+        print(e)
         continue
