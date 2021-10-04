@@ -1,2 +1,6 @@
-import sys
-sys.stdout.buffer.write(bytes.fromhex("AABBCC12")+ b"%.8x"*24 )
+import jwt
+import datetime
+secret='hz66OCkDtv8G6D'
+token = jwt.encode({'user': 'user', 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=5)}, secret)
+print(token)
+print(type(token))
