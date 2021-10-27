@@ -1,6 +1,18 @@
-import jwt
-import datetime
-secret='hz66OCkDtv8G6D'
-token = jwt.encode({'user': 'user', 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=5)}, secret)
-print(token)
-print(type(token))
+import dns.zone as dz
+import dns.query as dq
+import dns.resolver as dr
+import argparse
+
+# Initialize Resolver-Class from dns.resolver as "NS"
+NS = dr.Resolver()
+
+# Target domain
+Domain = 'inlanefreight.com'
+
+# Set the nameservers that will be used
+NS.nameservers = ['ns1.inlanefreight.com', 'ns2.inlanefreight.com']
+
+# List of found subdomains
+Subdomains = []
+
+axfr = dz.from_xfr(dq.xfr(NS.nameservers[0], Domain))
