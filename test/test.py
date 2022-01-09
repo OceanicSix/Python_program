@@ -1,18 +1,8 @@
-import dns.zone as dz
-import dns.query as dq
-import dns.resolver as dr
-import argparse
 
-# Initialize Resolver-Class from dns.resolver as "NS"
-NS = dr.Resolver()
+s="htb"
+x = s.__class__.mro()[1].__subclasses__()
+for i in range(len(x)):
+    fn=x[i].__name__
 
-# Target domain
-Domain = 'inlanefreight.com'
-
-# Set the nameservers that will be used
-NS.nameservers = ['ns1.inlanefreight.com', 'ns2.inlanefreight.com']
-
-# List of found subdomains
-Subdomains = []
-
-axfr = dz.from_xfr(dq.xfr(NS.nameservers[0], Domain))
+    if fn.find("warning")>-1:
+        print(i,fn)
